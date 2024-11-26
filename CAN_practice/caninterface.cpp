@@ -28,6 +28,8 @@ bool CANInterface::initializeCanSocket(const QString &interfaceName)
     }
 
     // Get the interface index
+    // After calling ioctl, ifr.ifr_ifindex will be populated with the index of the interface.
+    // To bind the socket to a specific interface (here is CAN), the kernel needs an index associated with that interface, not just the name.
     if (ioctl(sock, SIOCGIFINDEX, &ifr) < 0) {
         qCritical() << "Error getting interface index";
         close(sock);
